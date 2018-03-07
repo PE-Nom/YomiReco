@@ -16,23 +16,30 @@
 
         <script src="http://unpkg.com/vue/dist/vue.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel='stylesheet' href='/JS/myApps/YomiReco/css/style.css'>
         <script src="http://unpkg.com/element-ui/lib/index.js"></script>
         <script src="http://unpkg.com/element-ui/lib/umd/locale/ja.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src='/JS/myApps/YomiReco/logout.js'></script>
+
+
+        
     </head>
 
     <body>
         <!-- demo root element -->
+<!--
         <div id="s3results"></div>
         <div id="dynamoDBresults"></div>
+-->
         <div id="username"></div>
         <div id="email"></div>
         <div id="demo">
-            <form id="search">
+            <form id="search" class="search">
                 Search <input name="query" v-model="searchQuery">
+                <button id="logout-button" class="logout-button" v-on:click="logout">ログアウト</button>
             </form>
             <demo-grid v-on:updatedata="updateRecords"
                 :data="gridData"

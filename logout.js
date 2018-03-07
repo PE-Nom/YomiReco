@@ -35,7 +35,6 @@ upsample.checkSession = function (resolve,reject) {
                         console.log('name:' + attrs[i].getName() + ", value: " + attrs[i].getValue() );
                         if (attrs[i].getName() == 'email') {
                             emailAddr = attrs[i].getValue();
-                            // $('#email').text('Email: ' + attrs[i].getValue());
                             $('#email').text('Email: ' + emailAddr);
                         }
                     }
@@ -56,7 +55,7 @@ upsample.checkSession = function (resolve,reject) {
                         return reject(err);
                     }
                     else {
-                        console.log("id:" + AWS.config.credentials.identityId);                    
+                        console.log("id:" + AWS.config.credentials.identityId);
                         bucket = new AWS.S3({params: {Bucket: bucketName}});
                         ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
                         return resolve();
@@ -99,7 +98,7 @@ upsample.listObjects = function(resolve,reject) {
                 data.Contents.forEach(function (obj) {
                     objKeys += obj.Key + "<br>";
                 });
-                $('#s3results').html(objKeys);
+//                $('#s3results').html(objKeys);
                 return resolve();
             }
         });
@@ -134,7 +133,7 @@ upsample.listBooks = function(resolve,reject) {
                     + ":" + element.BookTitle.S + "@" + element.RegistrationDateTime.S
                     + "(" + element.BookImagePath.S + ")" + "<br>";
             });
-            $('#dynamoDBresults').html(records);
+//            $('#dynamoDBresults').html(records);
             return resolve(data);
         }
       });

@@ -76,7 +76,7 @@ Vue.component('demo-grid', {
     loadData: async function() {
       try {
         await this.asyncFuncCall(upsample.checkSession);
-        await this.asyncFuncCall(upsample.listObjects);
+//        await this.asyncFuncCall(upsample.listObjects);
         var books = await this.asyncFuncCall(upsample.listBooks);
         var records = await this.createBooksRecords(books);
         this.$emit('updatedata', records);
@@ -110,6 +110,9 @@ var demo = new Vue({
       console.log('###updateRecords');
       console.log(bookRecords);
       this.gridData = bookRecords;
+    },
+    logout: function() {
+      upsample.logout();
     }
   }
 })
