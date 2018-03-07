@@ -61,7 +61,7 @@
                     <div class="wrapper attributes">
                         <div v-for="key in columns" v-bind:class="[key]">
                             <span v-if="key==='Buy' && entry[key]==='貸出'" class="label label-success">
-                            {{entry[key]}}
+                                {{entry[key]}}
                             </span>
                             <span v-else-if="key==='Buy' && entry[key]==='購入'" class="label label-info">
                                 {{entry[key]}}
