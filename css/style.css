@@ -1,0 +1,142 @@
+/*
+  * Define the widths: play around with these
+  * to get a best fit.
+  */
+/*
+  * Basic styles, good for a large display. Everything fits in
+  * one row, no wrapping. All text based cells grow equally.
+  */
+  .table-row {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-wrap: no-wrap;
+    -webkit-flex-wrap: no-wrap;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .wrapper {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+  }
+  .column {
+    flex-grow: 0;
+    -webkit-flex-grow: 0;
+    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+    vertical-align: top;
+  }
+  .BookTitle {
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .RegistrationDateTime {
+    width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .Buy {
+    width: 100px;
+    height: 20px;
+    display:flex;
+    align-items: center;
+  }
+  .ReadComplete {
+    width: 200px;
+    height: 20px;
+    display:flex;
+    align-items: center;
+  }
+  .BookImagePath {
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /* growable wrappers */
+  .attributes {
+    flex-grow: 0;
+    -webkit-flex-grow: 0;
+  }
+  /*
+   * Media queries: optimize for different screen widths.
+   */
+  /*
+   * Media breaks.
+   */
+   @media screen and (max-device-width: 768px),screen and (max-width: 768px)
+   {
+    .attributes {
+      flex-direction: column;
+      -webkit-flex-direction: column;
+    }
+    .attributes div {
+      flex-grow: 0;
+      -webkit-flex-grow: 0;
+    }
+    .attributes > div {
+      width: 100%;
+    }
+  }
+  /*
+   * General good-look styles
+   */
+  .table-row {
+    border-bottom: 1px solid #e0e0e0;
+    border-collapse: collapse;
+    padding-top: 2px;
+  }
+  .table-row.header {
+    background-color: rgb(229, 255, 219);
+    font-weight: bold;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  div.active {
+    color: rgb(55, 11, 177);
+  }
+
+  div.active .arrow {
+    opacity: 1;
+  }
+  .arrow {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    opacity: 0.66;
+  }
+
+  .arrow.asc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid #000;
+  }
+
+  .arrow.dsc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #000;
+  }
+
+  div.active .arrow.asc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid rgb(55, 11, 177);
+  }
+
+  div.active .arrow.dsc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid rgb(55, 11, 177);
+  }

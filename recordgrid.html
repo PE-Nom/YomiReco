@@ -1,0 +1,86 @@
+<html>
+
+    <head>
+        <meta charset='utf-8'>
+        <title>user pool sapmle</title>
+        <!--
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel='stylesheet' href='/JS/myApps/YomiRec/css/recordgrid.css'>
+        -->
+        <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+        <script src="/JS/myApps/YomiRec/lib/aws-cognito-sdk.min.js"></script>
+        <script src="/JS/myApps/YomiRec/lib/amazon-cognito-identity.min.js"></script>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.108.0.min.js"></script>
+
+        <script src="http://unpkg.com/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel='stylesheet' href='/JS/myApps/YomiRec/css/style.css'>
+        <script src="http://unpkg.com/element-ui/lib/index.js"></script>
+        <script src="http://unpkg.com/element-ui/lib/umd/locale/ja.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src='/JS/myApps/YomiRec/logout.js'></script>
+    </head>
+
+    <body>
+        <!-- demo root element -->
+        <div id="s3results"></div>
+        <div id="dynamoDBresults"></div>
+        <div id="username"></div>
+        <div id="email"></div>
+        <div id="demo">
+            <form id="search">
+                Search <input name="query" v-model="searchQuery">
+            </form>
+            <demo-grid v-on:updatedata="updateRecords"
+                :data="gridData"
+                :columns="gridColumns"
+                :filter-key="searchQuery">
+            </demo-grid>
+        </div>
+    </body>
+
+    <!-- component template -->
+    <script type="text/x-template" id="grid-template">
+
+        <div class="container-fluid" style="margin-top: 10px">
+            <div class="table-row header">
+                <div class="wrapper attributes">
+                    <div v-for="key in columns"
+                        @click="sortBy(key)"
+                        :class="[{ active: sortKey == key }, key]">
+                        {{ key | capitalize }}
+                        <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
+                    </div>
+                </div>
+            </div>          
+            <div v-for="entry in filteredData">              
+                <div class="table-row data">
+                    <div class="wrapper attributes">
+                        <div v-for="key in columns" v-bind:class="[key]">
+                            <span v-if="key==='Buy' && entry[key]==='貸出'" class="label label-success">
+                            {{entry[key]}}
+                            </span>
+                            <span v-else-if="key==='Buy' && entry[key]==='購入'" class="label label-info">
+                                {{entry[key]}}
+                            </span>
+                            <span v-else-if="key==='ReadComplete' && entry[key]==='完読'" class="label label-success">
+                                {{entry[key]}}
+                            </span>
+                            <span v-else-if="key==='ReadComplete' && entry[key]==='未読'" class="label label-danger">
+                                {{entry[key]}}
+                            </span>
+                            <span v-else>
+                                {{entry[key]}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="/JS/myApps/YomiRec/recordgrid.js"></script>
+
+</html>
