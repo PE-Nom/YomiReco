@@ -23,20 +23,22 @@ Vue.component('demo-grid', {
       var order = this.sortOrders[sortKey] || 1
       var data = this.data
       if (filterKey) {
-//        console.log('filterData by filterKey changed');
+        console.log('filterData by filterKey changed');
         data = data.filter(function (row) {
           return Object.keys(row).some(function (key) {
             return String(row[key]).toLowerCase().indexOf(filterKey) > -1
           })
         })
+        console.log(data);
       }
       if (sortKey) {
-//        console.log('filterData by sortKey changed');
+        console.log('filterData by sortKey changed');
         data = data.slice().sort(function (a, b) {
           a = a[sortKey]
           b = b[sortKey]
           return (a === b ? 0 : a > b ? 1 : -1) * order
         })
+        console.log(data);
       }
       return data
     }
