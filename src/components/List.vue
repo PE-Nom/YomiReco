@@ -109,40 +109,6 @@ export default {
       })
       return records
     },
-    /*
-    loadData: function () {
-      var records = []
-      var rec = '{' +
-            ' "BookTitle" : "パーフェクトJavaScript"' +
-            ',"RegistrationDateTime" : "2018/03/11/08:40:00"' +
-            ',"Buy" : "購入"' +
-            ',"ReadComplete" : "未読"' +
-            ',"BookImagePath" : "/image/book01.jpg"' +
-            ' }'
-      var obj = JSON.parse(rec)
-      records.push(obj)
-      rec = '{' +
-            ' "BookTitle" : "JavaScriptフレームワーク入門"' +
-            ',"RegistrationDateTime" : "2018/03/11/08:45:00"' +
-            ',"Buy" : "貸出"' +
-            ',"ReadComplete" : "完読"' +
-            ',"BookImagePath" : "/image/book02.jpg"' +
-            ' }'
-      obj = JSON.parse(rec)
-      records.push(obj)
-      rec = '{' +
-            ' "BookTitle" : "JavaScript関数型プログラミング"' +
-            ',"RegistrationDateTime" : "2018/03/11/08:34:00"' +
-            ',"Buy" : "貸出"' +
-            ',"ReadComplete" : "未読"' +
-            ',"BookImagePath" : "/image/book03.jpg"' +
-            ' }'
-      obj = JSON.parse(rec)
-      records.push(obj)
-      this.loadData2()
-      this.$emit('updatedata', records)
-    },
-    */
     asyncFuncCall: function (cb) {
       return new Promise((resolve, reject) => { return cb(resolve, reject) })
     },

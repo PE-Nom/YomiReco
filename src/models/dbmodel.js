@@ -143,60 +143,6 @@ export default {
       }
     })
   },
-  checkSession: function (resolve, reject) {
-    console.log('checkSession start')
-    const userPool = new CognitoUserPool(poolData)
-    console.log(userPool)
-    var cognitoUser = userPool.getCurrentUser()
-    if (cognitoUser != null) {
-      console.log(cognitoUser)
-      cognitoUser.getSession(function (err, sessionResult) {
-        if (err) {
-          console.log('session is invalid')
-          return reject('session is invalid')
-        } else {
-          if (sessionResult) {
-            cognitoUser.getUserAttributes(function (err, attrs) {
-              if (err) {
-                console.log('error @ checkSession getUserAttributes')
-                // console.log(err)
-                return reject(err)
-              } else {
-                for (var i = 0; i < attrs.length; i++) {
-                  console.log('name:' + attrs[i].getName() + ', value: ' + attrs[i].getValue())
-                  if (attrs[i].getName() === 'email') {
-                    emailAddr = attrs[i].getValue()
-                  }
-                }
-              }
-            })
-            AWS.config.region = 'ap-northeast-1'
-            var cognitoParams = {
-              IdentityPoolId: idPoolId,
-              Logins: {'cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_AM0R9AjCn': sessionResult.getIdToken().getJwtToken()}
-              // Logins: { userPoolId: sessionResult.getIdToken().getJwtToken() }
-            }
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials(cognitoParams)
-            console.log('AWS.config.credentials.get!!!')
-            // AWS.config.credentials.clearCachedId();
-            AWS.config.credentials.get(function (err) {
-              if (err) {
-                console.log(err)
-                return reject(err)
-              } else {
-                console.log('id:' + AWS.config.credentials.identityId)
-                console.log('end of checkSession')
-                return resolve()
-              }
-            })
-          }
-        }
-      })
-    } else {
-      console.log('no user')
-      return reject('no user')
-    }
-  },
   listBooks: function (resolve, reject) {
     console.log('listBooks')
     ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'})
@@ -237,16 +183,4 @@ export default {
       return reject(err)
     }
   }
-  /*
-  checkSession: function (resolve, reject) {
-    var msg = 'dbmodel.checksession!!'
-    console.log(msg)
-    return resolve(msg)
-  },
-  listBooks: function (resolve, reject) {
-    var msg = 'dbmodel.listBooks!!'
-    console.log(msg)
-    return resolve(msg)
-  }
-  */
 }
