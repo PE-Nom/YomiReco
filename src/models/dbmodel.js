@@ -14,12 +14,13 @@ const poolData = {
   UserPoolId: 'ap-northeast-1_AM0R9AjCn',
   ClientId: '5pirlk3nk3htdngm6h6mbbi77u'
 }
+/*
 const authenticationData = {
   Username: 'Takashi',
   Password: 'Kbe-2285'
 }
 const username = 'Takashi'
-const password = 'Kbe-2285'
+*/
 
 var userPool = null
 var authenticationDetails = null
@@ -29,14 +30,19 @@ var ddb = null
 var emailAddr = ''
 
 export default {
-  login: function (resolve, reject) {
-    if (!username | !password) { return false }
+  login: function (resolve, reject, params) {
+    console.log(params)
+    if (!params.userName | !params.passWord) { return false }
 
+    const authenticationData = {
+      Username: params.userName,
+      Password: params.passWord
+    }
     userPool = new CognitoUserPool(poolData)
     authenticationDetails = new AuthenticationDetails(authenticationData)
 
     var userData = {
-      Username: username,
+      Username: params.userName,
       Pool: userPool
     }
 
@@ -68,6 +74,15 @@ export default {
         return reject(err)
       }
     })
+  },
+  logout: function () {
+    // var cognitoUser = UserPool.getCurrentUser()
+    if (cognitoUser != null) {
+      console.log('logout')
+      cognitoUser.signOut()
+      AWS.config.credentials.clearCachedId()
+      location.reload()
+    }
   },
   getSession: function (resolve, reject) {
     console.log('getSession start')
