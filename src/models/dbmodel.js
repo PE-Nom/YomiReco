@@ -14,13 +14,6 @@ const poolData = {
   UserPoolId: 'ap-northeast-1_AM0R9AjCn',
   ClientId: '5pirlk3nk3htdngm6h6mbbi77u'
 }
-/*
-const authenticationData = {
-  Username: 'Takashi',
-  Password: 'Kbe-2285'
-}
-const username = 'Takashi'
-*/
 
 var userPool = null
 var authenticationDetails = null
