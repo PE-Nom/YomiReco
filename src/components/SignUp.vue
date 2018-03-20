@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <div class="container">
-      <form class="login">
-        <h2 class="login-heading">ログイン</h2>
+      <form class="SingUp">
+        <h2 class="sign-up-heading">サインアップ</h2>
+        <form id="emailAddr" class="emailAddr">
+          <input name="query" v-model="emailAddr" placeholder="E-mail">
+        </form>
         <form id="userName" class="userName">
           <input name="query" v-model="userName" placeholder="UserName">
         </form>
@@ -10,14 +13,9 @@
           <input name="query" v-model="passWord" placeholder="Password">
         </form>
         <br/>
-        <!--
-          v-on:submit.prevent の修飾子を指定しないと、クリック時にページリロードが
-          発生し、初回のクリックでログインされず、ページ再描画される
-        -->
-        <form v-on:submit.prevent="login">
-          <input type='submit' value='ログイン'>
+        <form v-on:submit.prevent="SignUp">
+          <input type='submit' value='アカウントの作成'>
         </form>
-        <!-- <button v-on:click='login'>ログイン</button> -->
       </form>
     </div>
   </div>
@@ -26,28 +24,30 @@
 <script>
 import dbmodel from '../models/dbmodel.js'
 
-export default{
-  name: 'Login',
+export default {
+  name: 'SignUp',
   data: function () {
     return {
+      emailAddr: '',
       userName: '',
       passWord: ''
     }
   },
   methods: {
-    login: function () {
-      console.log('login')
+    SignUp: function () {
+      console.log('SignUp')
       var params = {
+        email: this.emailAddr,
         userName: this.userName,
         passWord: this.passWord
       }
-      console.log(params)
-      dbmodel.login(params)
+      dbmodel.SignUp(params)
         .then(() => {
-          this.$router.push('List')
+          this.$router.push('/Confirm')
         })
         .catch((err) => {
           console.log(err)
+          this.emailAddr = ''
           this.userName = ''
           this.passWord = ''
         })

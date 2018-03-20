@@ -1,6 +1,6 @@
 
 import AWS from 'aws-sdk'
-import {CognitoUserPool, AuthenticationDetails, CognitoUser} from 'amazon-cognito-identity-js'
+import {CognitoUserPool, AuthenticationDetails, CognitoUser, CognitoUserAttribute} from 'amazon-cognito-identity-js'
 
 // 結局以下のimportは不要
 // JavaScriptからAmazon Cognitoを使うためのまとめ(https://lealog.hateblo.jp/entry/2017/01/25/105528)
@@ -15,7 +15,7 @@ const poolData = {
   ClientId: '5pirlk3nk3htdngm6h6mbbi77u'
 }
 
-var userPool = null
+var userPool = new CognitoUserPool(poolData)
 var authenticationDetails = null
 var cognitoUser = null
 var session = null
@@ -23,7 +23,67 @@ var ddb = null
 var emailAddr = ''
 
 export default {
-  login: function (params) {
+  SignUp: function (params) {
+    const p = new Promise((resolve, reject) => {
+      console.log(params)
+      if (!params.email | !params.userName | !params.passWord) {
+        var err = 'invalid params'
+        reject(err)
+      }
+      const attributeList = []
+      const dataEmail = {
+        Name: 'email',
+        Value: params.email
+      }
+      const attributeEmail = new CognitoUserAttribute(dataEmail)
+      attributeList.push(attributeEmail)
+      userPool.signUp(params.userName, params.passWord, attributeList, null, function (err, result) {
+        if (err) {
+          console.log('an error occurred @ SignUp')
+          console.log(err)
+          reject(err)
+        } else {
+          console.log('SignUp')
+          // resolve the promise with whatever attributes you need
+          // in this case, we return an object with only the email attribute because we will save that to localStorage
+          resolve()
+        }
+      })
+    })
+    return p
+  },
+  Confirm: function (params) {
+    const p = new Promise((resolve, reject) => {
+      console.log(params)
+      if (!params.userName | !params.pin) {
+        var err = 'invalid params'
+        reject(err)
+      }
+      var userData = {
+        Username: params.userName,
+        Pool: userPool
+      }
+      const cognitoUser = new CognitoUser(userData)
+      cognitoUser.confirmRegistration(params.pin, true, function (err, result) {
+        if (err) {
+          console.log(err)
+          reject(err)
+        } else {
+          if (result === 'SUCCESS') {
+            console.log('Successfully verified account!')
+            cognitoUser.signOut()
+            resolve()
+          } else {
+          // if otherwise failure, we reject the promise
+            var error = 'Could not verify account'
+            reject(error)
+          }
+        }
+      })
+    })
+    return p
+  },
+  SignIn: function (params) {
     const p = new Promise((resolve, reject) => {
       console.log(params)
       if (!params.userName | !params.passWord) {
@@ -34,7 +94,7 @@ export default {
         Username: params.userName,
         Password: params.passWord
       }
-      userPool = new CognitoUserPool(poolData)
+      // userPool = new CognitoUserPool(poolData)
       authenticationDetails = new AuthenticationDetails(authenticationData)
 
       var userData = {
@@ -90,7 +150,7 @@ export default {
     })
     return p
   },
-  logout: function () {
+  SignOut: function () {
     // var cognitoUser = UserPool.getCurrentUser()
     const p = new Promise((resolve, reject) => {
       if (cognitoUser != null) {

@@ -136,7 +136,7 @@ export default {
     },
     redirectTologin: function () {
       console.log('redirect to login 画面')
-      this.$router.push('Login')
+      this.$router.push('/SignIn')
     }
   },
   // 追加

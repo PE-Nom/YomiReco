@@ -3,8 +3,8 @@
     <form id="search" class="search">
       Search <input name="query" v-model="searchQuery">
     </form>
-    <form v-on:submit.prevent="logout">
-      <input type='submit' value='ログアウト'>
+    <form v-on:submit.prevent="SignOut">
+      <input type='submit' value='サインアウト'>
     </form>
     <!-- <button v-on:click='logout'>ログアウト</button> -->
     <Table v-on:updatedata="updateRecords"
@@ -18,12 +18,12 @@
 <script>
 import dbmodel from '../models/dbmodel.js'
 import Table from './Table.vue'
-import Login from './Login.vue'
+import SignIn from './SignIn.vue'
 
 export default {
   name: 'List',
   components: {
-    Login,
+    SignIn,
     Table
   },
   data: function () {
@@ -39,11 +39,11 @@ export default {
       console.log(bookRecords)
       this.gridData = bookRecords
     },
-    logout: async function (event) {
+    SignOut: async function (event) {
       console.log('logout')
       try {
-        await dbmodel.logout()
-        await this.$router.push('Login')
+        await dbmodel.SignOut()
+        await this.$router.push('/SignIn')
       } catch (err) {
         console.log(err)
       }
