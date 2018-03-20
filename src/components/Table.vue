@@ -110,15 +110,12 @@ export default {
       })
       return records
     },
-    asyncFuncCall: function (cb, params) {
-      return new Promise((resolve, reject) => { return cb(resolve, reject, params) })
-    },
     checkSession: async function (onSuccessCb, onFailureCb) {
       console.log('checkSession')
       try {
-        await this.asyncFuncCall(dbmodel.getSession)
-        await this.asyncFuncCall(dbmodel.getUserAttribute)
-        await this.asyncFuncCall(dbmodel.getCredentials)
+        await dbmodel.getSession()
+        await dbmodel.getUserAttribute()
+        await dbmodel.getCredentials()
         await onSuccessCb()
       } catch (err) {
         // loginにリダイレクトする
@@ -129,7 +126,7 @@ export default {
     loadData: async function () {
       console.log('loadData')
       try {
-        var books = await this.asyncFuncCall(dbmodel.listBooks)
+        var books = await dbmodel.listBooks()
         var records = await this.createBooksRecords(books)
         this.$emit('updatedata', records)
       } catch (err) {

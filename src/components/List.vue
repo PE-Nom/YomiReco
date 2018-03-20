@@ -34,9 +34,6 @@ export default {
     }
   },
   methods: {
-    asyncFuncCall: function (cb, params) {
-      return new Promise((resolve, reject) => { return cb(resolve, reject, params) })
-    },
     updateRecords: function (bookRecords) {
       console.log('###updateRecords')
       console.log(bookRecords)
@@ -45,7 +42,7 @@ export default {
     logout: async function (event) {
       console.log('logout')
       try {
-        await this.asyncFuncCall(dbmodel.logout)
+        await dbmodel.logout()
         await this.$router.push('Login')
       } catch (err) {
         console.log(err)
