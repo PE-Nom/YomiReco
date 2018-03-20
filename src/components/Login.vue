@@ -3,16 +3,21 @@
     <div class="container">
       <form class="login">
         <h2 class="login-heading">ログイン</h2>
-        <div id="message" style="display:none"></div>
         <form id="userName" class="userName">
-          ユーザー名 <input name="query" v-model="userName">
+          <input name="query" v-model="userName" placeholder="UserName">
         </form>
         <form id="passWord" class="passWord">
-          パスワード <input name="query" v-model="passWord">
+          <input name="query" v-model="passWord" placeholder="Password">
         </form>
         <br/>
-        <button v-on:click='login'>ログイン</button>
-        <button v-on:click='signup'>ユーザーを作成する</button>
+        <!--
+          v-on:submit.prevent の修飾子を指定しないと、クリック時にページリロードが
+          発生し、初回のクリックでログインされず、ページ再描画される
+        -->
+        <form v-on:submit.prevent="login">
+          <input type='submit' value='ログイン'>
+        </form>
+        <!-- <button v-on:click='login'>ログイン</button> -->
       </form>
     </div>
   </div>
@@ -30,28 +35,26 @@ export default{
     }
   },
   methods: {
-    asyncFuncCall: function (cb, params) {
-      return new Promise((resolve, reject) => { return cb(resolve, reject, params) })
-    },
-    login: async function () {
+    login: function () {
       console.log('login')
       var params = {
         userName: this.userName,
         passWord: this.passWord
       }
       console.log(params)
-      try {
-        await this.asyncFuncCall(dbmodel.login, params)
-        await this.$router.push('./List')
-      } catch (err) {
-        console.log(err)
-        this.userName = ''
-        this.passWord = ''
-      }
-    },
-    signup: function () {
-      console.log('signup')
+      dbmodel.login(params)
+        .then(() => {
+          this.$router.push('List')
+        })
+        .catch((err) => {
+          console.log(err)
+          this.userName = ''
+          this.passWord = ''
+        })
     }
+  },
+  mounted () {
+    console.log('mounted')
   }
 }
 </script>

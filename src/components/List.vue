@@ -3,7 +3,10 @@
     <form id="search" class="search">
       Search <input name="query" v-model="searchQuery">
     </form>
-    <button v-on:click='logout'>ログアウト</button>
+    <form v-on:submit.prevent="logout">
+      <input type='submit' value='ログアウト'>
+    </form>
+    <!-- <button v-on:click='logout'>ログアウト</button> -->
     <Table v-on:updatedata="updateRecords"
       :data="gridData"
       :columns="gridColumns"
@@ -43,7 +46,7 @@ export default {
       console.log('logout')
       try {
         await this.asyncFuncCall(dbmodel.logout)
-        await this.$router.push('/Login')
+        await this.$router.push('Login')
       } catch (err) {
         console.log(err)
       }

@@ -23,6 +23,7 @@ var ddb = null
 var emailAddr = ''
 
 export default {
+  /*
   login: function (resolve, reject, params) {
     console.log(params)
     if (!params.userName | !params.passWord) { return false }
@@ -67,6 +68,74 @@ export default {
         return reject(err)
       }
     })
+  },
+  */
+  login: function (params) {
+    const p = new Promise((resolve, reject) => {
+      console.log(params)
+      if (!params.userName | !params.passWord) {
+        var err = 'invalid params'
+        reject(err)
+      }
+      const authenticationData = {
+        Username: params.userName,
+        Password: params.passWord
+      }
+      userPool = new CognitoUserPool(poolData)
+      authenticationDetails = new AuthenticationDetails(authenticationData)
+
+      var userData = {
+        Username: params.userName,
+        Pool: userPool
+      }
+      cognitoUser = new CognitoUser(userData)
+      this.authenticateUser(cognitoUser, authenticationDetails)
+        .then(() => {
+          resolve()
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+    return p
+  },
+  authenticateUser: function (cognitoUser, authenticationDetails) {
+    const p = new Promise((resolve, reject) => {
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+          console.log('access token + ' + result.getAccessToken().getJwtToken())
+
+          AWS.config.region = 'ap-northeast-1'
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            // IdentityPoolId: 'ap-northeast-1:149a8900-ae0e-4724-afc3-9dfa2be6b63a', // YomiRec
+            IdentityPoolId: 'ap-northeast-1:c9fc7223-f992-4b06-8aa2-de2976eade8c', // YomiRecTest
+            Logins: {
+              'cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_AM0R9AjCn': result.getIdToken().getJwtToken()
+            }
+          })
+          AWS.config.credentials.clearCachedId()
+          /*
+          AWS.config.credentials.get(function (err) {
+            if (err) {
+              console.log('error @ login AWS.config.getCredentials')
+              reject(err)
+            } else {
+              console.log('id:' + AWS.config.credentials.identityId)
+              resolve()
+            }
+          })
+          */
+          AWS.config.credentials.refresh(function () {
+            console.log(AWS.config.credentials)
+          })
+          resolve()
+        },
+        onFailure: function (err) {
+          reject(err)
+        }
+      })
+    })
+    return p
   },
   logout: function () {
     // var cognitoUser = UserPool.getCurrentUser()
