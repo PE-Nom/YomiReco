@@ -162,6 +162,30 @@ export default {
     })
     return p
   },
+  Resend: function (params) {
+    const p = new Promise((resolve, reject) => {
+      console.log(params)
+      if (!params.userName) {
+        var err = 'invalid params'
+        reject(err)
+      }
+      var userData = {
+        Username: params.userName,
+        Pool: userPool
+      }
+      cognitoUser = new CognitoUser(userData)
+      cognitoUser.resendConfirmationCode(function (err, result) {
+        // reject promise if confirmation code failed
+        if (err) {
+          console.log(err)
+          reject(err)
+        }
+        // resolve if successfull
+        resolve()
+      })
+    })
+    return p
+  },
   getSession: function () {
     const p = new Promise((resolve, reject) => {
       console.log('getSession start')

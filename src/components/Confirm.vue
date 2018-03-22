@@ -4,7 +4,7 @@
       <form class="Confirm">
         <h2 class="confirm-heading">サインアップの確認</h2>
         <form id="userName" class="userName">
-          <input name="query" v-model="userName" placeholder="UserName">
+          <input name="query" v-model="sharedState.state.property.name" placeholder="UserName">
         </form>
         <form id="verificationCode" class="verificationCode">
           <input name="query" v-model="pin" placeholder="Verification Code">
@@ -13,6 +13,9 @@
         <form v-on:submit.prevent="Confirm">
           <input type='submit' value='確認する'>
         </form>
+        <form v-on:submit.prevent="ResendConfirmationCode">
+          <input type='submit' value='確認コードを再送する'>
+        </form>
       </form>
     </div>
   </div>
@@ -20,12 +23,13 @@
 
 <script>
 import dbmodel from '../models/dbmodel'
+import PropertyStore from '../models/store.js'
 
 export default {
   name: 'Confirm',
   data: function () {
     return {
-      userName: '',
+      sharedState: PropertyStore,
       pin: ''
     }
   },
@@ -33,7 +37,7 @@ export default {
     Confirm: function () {
       console.log('Confirm')
       var params = {
-        userName: this.userName,
+        userName: this.sharedState.state.property.name,
         pin: this.pin
       }
       dbmodel.Confirm(params)
@@ -42,13 +46,30 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          this.userName = ''
+          this.sharedState.state.property.name = ''
           this.pin = ''
         })
+    },
+    ResendConfirmationCode: function () {
+      console.log('ResendConfirmationCode')
+      if (this.sharedState.state.property.name) {
+        console.log(this.sharedState.state.property.name)
+        var params = {
+          userName: this.sharedState.state.property.name
+        }
+        dbmodel.Resend(params)
+          .then(() => {
+            console.log('Resolve')
+            // nop
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     }
   },
   mounted () {
-    console.log('mounted')
+    console.log('mounted PropertyStore.state.name = ' + PropertyStore.state.name + ', ' + 'this.userName = ' + this.userName)
   }
 }
 </script>

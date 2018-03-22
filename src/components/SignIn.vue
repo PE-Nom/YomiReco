@@ -4,10 +4,10 @@
       <form class="SignIn">
         <h2 class="SignIn-heading">サインイン</h2>
         <form id="userName" class="userName">
-          <input name="query" v-model="userName" placeholder="UserName">
+          <input name="query" v-model="sharedState.state.property.name" placeholder="UserName">
         </form>
         <form id="passWord" class="passWord">
-          <input name="query" v-model="passWord" placeholder="Password">
+          <input name="query" v-model="sharedState.state.property.pw" placeholder="Password">
         </form>
         <br/>
         <!--
@@ -27,21 +27,21 @@
 
 <script>
 import dbmodel from '../models/dbmodel.js'
+import PropertyStore from '../models/store.js'
 
 export default {
   name: 'SignIn',
   data: function () {
     return {
-      userName: '',
-      passWord: ''
+      sharedState: PropertyStore
     }
   },
   methods: {
     SignIn: function () {
       console.log('Signin')
       var params = {
-        userName: this.userName,
-        passWord: this.passWord
+        userName: this.sharedState.state.property.name,
+        passWord: this.sharedState.state.property.pw
       }
       console.log(params)
       dbmodel.SignIn(params)
@@ -50,8 +50,12 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          this.userName = ''
-          this.passWord = ''
+          if (err.code === 'UserNotConfirmedException') {
+            this.$router.push('/Confirm')
+          } else {
+            this.sharedState.state.property.name = ''
+            this.sharedState.state.property.pw = ''
+          }
         })
     },
     SignUp: function () {

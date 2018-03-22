@@ -4,13 +4,13 @@
       <form class="SingUp">
         <h2 class="sign-up-heading">サインアップ</h2>
         <form id="emailAddr" class="emailAddr">
-          <input name="query" v-model="emailAddr" placeholder="E-mail">
+          <input name="query" v-model="sharedState.state.property.mail" placeholder="E-mail">
         </form>
         <form id="userName" class="userName">
-          <input name="query" v-model="userName" placeholder="UserName">
+          <input name="query" v-model="sharedState.state.property.name" placeholder="UserName">
         </form>
         <form id="passWord" class="passWord">
-          <input name="query" v-model="passWord" placeholder="Password">
+          <input name="query" v-model="sharedState.state.property.pw" placeholder="Password">
         </form>
         <br/>
         <form v-on:submit.prevent="SignUp">
@@ -23,23 +23,22 @@
 
 <script>
 import dbmodel from '../models/dbmodel.js'
+import PropertyStore from '../models/store.js'
 
 export default {
   name: 'SignUp',
   data: function () {
     return {
-      emailAddr: '',
-      userName: '',
-      passWord: ''
+      sharedState: PropertyStore
     }
   },
   methods: {
     SignUp: function () {
       console.log('SignUp')
       var params = {
-        email: this.emailAddr,
-        userName: this.userName,
-        passWord: this.passWord
+        email: this.sharedState.state.property.mail,
+        userName: this.sharedState.state.property.name,
+        passWord: this.sharedState.state.property.pw
       }
       dbmodel.SignUp(params)
         .then(() => {
@@ -47,9 +46,9 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          this.emailAddr = ''
-          this.userName = ''
-          this.passWord = ''
+          this.sharedState.state.property.mail = ''
+          this.sharedState.state.property.name = ''
+          this.sharedState.state.property.pw = ''
         })
     }
   },
