@@ -5,6 +5,10 @@ var PropertyStore = {
       name: '',
       pw: '',
       mail: ''
+    },
+    cognitoUserPackage: {
+      cognitoUser: null,
+      thirdArg: null
     }
   }
 }

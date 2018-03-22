@@ -83,6 +83,62 @@ export default {
     })
     return p
   },
+  PasswordReset: function (params) {
+    const p = new Promise((resolve, reject) => {
+      console.log(params)
+      if (!params.userName) {
+        var err = 'invalid params'
+        reject(err)
+      }
+      var userData = {
+        Username: params.userName,
+        Pool: userPool
+      }
+      cognitoUser = new CognitoUser(userData)
+      cognitoUser.forgotPassword({
+
+        // we are resolving the `cognitoUser` in our promise because the React component will use it to call `cognitoUser.confirmPassword()`
+        // thats also why we pass in the `forgotPassword` `this` to be used in the React component
+
+        // if successful, then we can resolve the promise with cognitoUser and the `this` declaration from the React component that calls `forgotPassword()`
+        // but we may also resolve the promise with the third function `inputVerificationCode()` which handles behind the scenes of `forgotPassword()`
+        onSuccess: function (result) {
+          console.log('call result: ' + result)
+          // res({
+          //  cognitoUser: cognitoUser,
+          //  thirdArg: this
+          // })
+        },
+        // if failure, reject the promise
+        onFailure: function (err) {
+          reject(err)
+        },
+        // Optional automatic callback that passes in `data` object from `forgotPassword()` and resolve the same was as `onSuccess`
+        // `inputVerificationCode()` handles behind the scenes of `forgotPassword()`, but we don't actually use it. Its here if needed in the future.
+        inputVerificationCode: function (data) {
+          // console.log('Code sent to: ' + data)
+          resolve({
+            cognitoUser: cognitoUser,
+            thirdArg: this
+          })
+        }
+      })
+    })
+    return p
+  },
+  ChangePassword: function (params) {
+    const p = new Promise((resolve, reject) => {
+      cognitoUser.confirmPassword(params.pin, params.pw, {
+        onSuccess: function () {
+          resolve()
+        },
+        onFailure: function (err) {
+          reject(err)
+        }
+      })
+    })
+    return p
+  },
   SignIn: function (params) {
     const p = new Promise((resolve, reject) => {
       console.log(params)

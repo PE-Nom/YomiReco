@@ -17,6 +17,9 @@
         <form v-on:submit.prevent="SignIn">
           <input type='submit' value='サインイン'>
         </form>
+        <form v-on:submit.prevent="PasswordReset">
+          <input type='submit' value='パスワードリセット'>
+        </form>
         <form v-on:submit.prevent="SignUp">
           <input type='submit' value='サインアップ'>
         </form>
@@ -60,6 +63,21 @@ export default {
     },
     SignUp: function () {
       this.$router.push('/SignUp')
+    },
+    PasswordReset: function () {
+      console.log('PasswordReset')
+      var params = {
+        userName: this.sharedState.state.property.name
+      }
+      console.log(params)
+      dbmodel.PasswordReset(params)
+        .then((cognitoUserPackage) => {
+          PropertyStore.state.cognitoUserPackage = cognitoUserPackage
+          this.$router.push('/PasswordChange')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted () {
