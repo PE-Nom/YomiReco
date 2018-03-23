@@ -147,66 +147,11 @@ export default {
 </script>
 
 <style>
-/*
-  * Define the widths: play around with these
-  * to get a best fit.
-  */
-/*
-  * Basic styles, good for a large display. Everything fits in
-  * one row, no wrapping. All text based cells grow equally.
-  */
-  .search {
-    padding-left: 15px;
-  }
-  .logout-button {
-    /* 高さを指定 */
-    height:25px;
-    /* 文字サイズを1.4emに指定 */
-    font-size: 0.8em;
-    /* 文字の太さをboldに指定 */
-    font-weight: bold;
-    /* 縦方向に10px、
-     * 横方向に30pxの余白を指定 */
-    padding: 0px 10px;
-    /* 背景色を濃い青色に指定 */
-    background-color: rgb(19, 134, 241);
-    /* 文字色を白色に指定 */
-    color: #fff;
-    /* ボーダーをなくす */
-    border-style: none;
-    /* ボタンの影の指定
-     * 影の横幅を2px
-     * 縦長を2px
-     * ぼかしを3px
-     * 広がりを1px
-     * 色を#666（グレー）に指定 */
-    box-shadow: 2px 2px 3px 1px #248;
-    -moz-box-shadow: 2px 2px 3px 1px #248;
-    -webkit-box-shadow: 2px 2px 3px 1px #248;
-  }
-  .table-row {
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: row;
-    -webkit-flex-direction: row;
-    flex-wrap: no-wrap;
-    -webkit-flex-wrap: no-wrap;
-    width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
   .wrapper {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
     -webkit-flex-direction: row;
-  }
-  .column {
-    flex-grow: 0;
-    -webkit-flex-grow: 0;
-    flex-shrink: 0;
-    -webkit-flex-shrink: 0;
-    vertical-align: top;
   }
   .BookTitle {
     width: 200px;
@@ -243,7 +188,6 @@ export default {
     text-overflow: ellipsis;
     text-align: left;
   }
-
   /* growable wrappers */
   .attributes {
     flex-grow: 0;
@@ -251,9 +195,6 @@ export default {
   }
   /*
    * Media queries: optimize for different screen widths.
-   */
-  /*
-   * Media breaks.
    */
    @media screen and (max-device-width: 768px),screen and (max-width: 768px)
    {
@@ -283,13 +224,8 @@ export default {
     padding-top: 6px;
     padding-bottom: 6px;
   }
-
   div.active {
     color: rgb(55, 11, 177);
-  }
-
-  div.active .arrow {
-    opacity: 1;
   }
   .arrow {
     display: inline-block;
@@ -297,27 +233,26 @@ export default {
     width: 0;
     height: 0;
     margin-left: 5px;
-    opacity: 0.66;
+    opacity: 0.0;
   }
-
   .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid #000;
   }
-
   .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid #000;
   }
-
+  div.active .arrow {
+    opacity: 1;
+  }
   div.active .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-bottom: 4px solid rgb(55, 11, 177);
   }
-
   div.active .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;

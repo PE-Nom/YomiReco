@@ -1,14 +1,18 @@
 <template>
   <div id="app">
-    <p id="user-name">ユーザー：{{userName}}  </p>
-    <form class="form-inline">
-      <form id="search" class="search">
-        Search <input name="query" v-model="searchQuery">
-      </form>
-      <form v-on:submit.prevent="SignOut">
-        <input type='submit' value='サインアウト'>
-      </form>
-    </form>
+    <div id="header-container">
+      <div id="user-info">
+        <p id="user-name">ユーザー：{{userName}}</p>
+        <form id="sign-out" v-on:submit.prevent="SignOut">
+          <input type='submit' id="logout-button" value='サインアウト'>
+        </form>
+      </div>
+      <div id="query-box">
+        <form id="search">
+          <input name="query" id="searchQuery" v-model="searchQuery" placeholder="検索文字列">
+        </form>
+      </div>
+    </div>
     <!-- <button v-on:click='logout'>ログアウト</button> -->
     <Table v-on:updatedata="updateRecords"
       :data="gridData"
@@ -58,17 +62,68 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.user-name {
-  margin-top: 60px;
-  text-align: left;
-  vertical-align: bottom;
-}
+  #header-container {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    width:100%
+  }
+  /* -------------- */
+  /* user-info part */
+  #user-info {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width:20%;
+  }
+  #user-name {
+    padding: 15px;
+    align-self: center;
+  }
+  #sign-out {
+    padding: 15px;
+  }
+  #logout-button {
+    /* 文字サイズを1.4emに指定 */
+    font-size: 0.8em;
+    /* 文字の太さをboldに指定 */
+    font-weight: bold;
+    /* 背景色を濃い青色に指定 */
+    background-color: rgb(19, 134, 241);
+    /* 文字色を白色に指定 */
+    color: #fff;
+    /* ボーダーをなくす */
+    border-style: none;
+    /* ボタンの影の指定
+     * 影の横幅を2px
+     * 縦長を2px
+     * ぼかしを3px
+     * 広がりを1px
+     * 色を#666（グレー）に指定 */
+    box-shadow: 2px 2px 3px 1px #248;
+    -moz-box-shadow: 2px 2px 3px 1px #248;
+    -webkit-box-shadow: 2px 2px 3px 1px #248;
+  }
+  /* --------------- */
+  /* query text part */
+  #query-box {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    justify-content: flex-start;
+    width:20%;
+  }
+  #search {
+    padding-left: 15px;
+    width:100%;
+  }
+  #searchQuery {
+    height:25px;
+    width: 100%;
+  }
 </style>
