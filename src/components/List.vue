@@ -78,16 +78,19 @@ export default {
     -webkit-flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    width:20%;
+    width:30%;
   }
   #user-name {
-    padding: 15px;
-    align-self: center;
+    padding: 5px;
+    margin-bottom: 0;
   }
   #sign-out {
-    padding: 15px;
+    padding: 5px;
   }
   #logout-button {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
     /* 文字サイズを1.4emに指定 */
     font-size: 0.8em;
     /* 文字の太さをboldに指定 */
@@ -116,14 +119,34 @@ export default {
     flex-direction: row;
     -webkit-flex-direction: row;
     justify-content: flex-start;
-    width:20%;
+    width:30%;
   }
   #search {
-    padding-left: 15px;
+    padding: 5px;
     width:100%;
   }
   #searchQuery {
-    height:25px;
     width: 100%;
+  }
+  /*
+   * Media queries: optimize for different screen widths.
+   */
+  @media screen and (max-device-width: 768px),screen and (max-width: 768px)
+  {
+    #user-info {
+      width:60%;
+    }
+    #query-box {
+      width:60%;
+    }
+  }
+  @media screen and (max-width: 468px)
+  {
+    #user-info {
+      width:100%;
+    }
+    #query-box {
+      width:100%;
+    }
   }
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <div id="app">
-    <div class="container-fluid" style="margin-top: 10px">
+    <div class="container-fluid">
         <div class="table-row header">
             <div class="wrapper attributes">
                 <div v-for="(val, idx) in columns" v-bind:key=idx @click="sortBy(val)" :class="[{ active: sortKey == val }, val]">
@@ -33,7 +32,6 @@
             </div>
         </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -147,6 +145,10 @@ export default {
 </script>
 
 <style>
+  .container-fluid{
+    padding: 5px;
+    width: 100%;
+  }
   .wrapper {
     display: flex;
     display: -webkit-flex;
@@ -216,7 +218,6 @@ export default {
   .table-row {
     border-bottom: 1px solid #e0e0e0;
     border-collapse: collapse;
-    padding-top: 2px;
   }
   .table-row.header {
     background-color: rgb(229, 255, 219);
