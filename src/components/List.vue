@@ -101,6 +101,7 @@ export default {
     color: #fff;
     /* ボーダーをなくす */
     border-style: none;
+    border-radius: 3px;
     /* ボタンの影の指定
      * 影の横幅を2px
      * 縦長を2px
@@ -110,6 +111,9 @@ export default {
     box-shadow: 2px 2px 3px 1px #248;
     -moz-box-shadow: 2px 2px 3px 1px #248;
     -webkit-box-shadow: 2px 2px 3px 1px #248;
+  }
+  #logout-button:hover {
+    color: rgb(1, 78, 165);
   }
   /* --------------- */
   /* query text part */
@@ -127,6 +131,9 @@ export default {
   }
   #searchQuery {
     width: 100%;
+    -moz-box-shadow: inset 1px 4px 9px -6px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 1px 4px 9px -6px rgba(0,0,0,0.5);
   }
   /*
    * Media queries: optimize for different screen widths.
