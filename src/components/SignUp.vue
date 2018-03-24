@@ -60,9 +60,6 @@ export default {
           .catch((err) => {
             console.log(err)
             this.errorMessage = err.message
-            this.sharedState.state.property.mail = ''
-            this.sharedState.state.property.name = ''
-            this.sharedState.state.property.pw = ''
           })
       }
     }

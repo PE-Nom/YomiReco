@@ -72,8 +72,6 @@ export default {
               this.$router.push('/Confirm')
             } else {
               this.signinErrorMessage = err.message
-              this.sharedState.state.property.name = ''
-              this.sharedState.state.property.pw = ''
             }
           })
       }

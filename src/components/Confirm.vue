@@ -5,9 +5,7 @@
       </div>
       <div class="confirm_container">
         <h2 class="confirm-heading">サインアップの確認</h2>
-        <form id="userName" class="confirm-form">
-          <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="User Name">
-        </form>
+        <p>{{sharedState.state.property.name}}</p>
         <form id="verificationCode" class="confirm-form">
           <input name="query" class="text-field" v-model="pin" placeholder="Verification Code">
         </form>
@@ -42,9 +40,7 @@ export default {
   methods: {
     Confirm: function () {
       console.log('Confirm')
-      if (this.sharedState.state.property.name === '') {
-        this.errorMessage = '"User Name" is not input'
-      } else if (this.pin === '') {
+      if (this.pin === '') {
         this.errorMessage = '"Verification Code" is not input'
       } else {
         var params = {
@@ -58,30 +54,23 @@ export default {
           .catch((err) => {
             console.log(err)
             this.errorMessage = err.message
-            this.sharedState.state.property.name = ''
-            this.pin = ''
           })
       }
     },
     ResendConfirmationCode: function () {
       console.log('ResendConfirmationCode')
-      if (this.sharedState.state.property.name === '') {
-        this.errorMessage = '"User Name" is not input'
-      } else {
-        console.log(this.sharedState.state.property.name)
-        var params = {
-          userName: this.sharedState.state.property.name
-        }
-        dbmodel.Resend(params)
-          .then(() => {
-            console.log('Resolve')
-            // nop
-          })
-          .catch((err) => {
-            console.log(err)
-            this.errorMessage = err.message
-          })
+      var params = {
+        userName: this.sharedState.state.property.name
       }
+      dbmodel.Resend(params)
+        .then(() => {
+          console.log('Resolve')
+          // nop
+        })
+        .catch((err) => {
+          console.log(err)
+          this.errorMessage = err.message
+        })
     }
   },
   mounted () {
