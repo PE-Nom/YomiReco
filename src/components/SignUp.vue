@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <div class="signup-container">
+    <div class="contents-container">
       <div class="dummy_container">
       </div>
-      <div class="contents-container">
+      <div class="signup-container">
         <h2 class="signup-heading">サインアップ</h2>
         <form id="emailAddr" class="signup-form">
           <input name="query" class="text-field" v-model="sharedState.state.property.mail" placeholder="E-mail">
         </form>
         <form id="userName" class="signup-form">
-          <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="UserName">
+          <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="User Name">
         </form>
         <form id="passWord" class="signup-form">
           <input name="query" class="text-field" v-model="sharedState.state.property.pw" placeholder="Password">
@@ -42,11 +42,11 @@ export default {
     SignUp: function () {
       console.log('SignUp')
       if (this.sharedState.state.property.mail === '') {
-        this.errorMessage = 'E-mail is not input'
+        this.errorMessage = '"E-mail" is not input'
       } else if (this.sharedState.state.property.name === '') {
-        this.errorMessage = 'UserName is not input'
+        this.errorMessage = '"User Name" is not input'
       } else if (this.sharedState.state.property.pw === '') {
-        this.errorMessage = 'Password is not input'
+        this.errorMessage = '"Password" is not input'
       } else {
         var params = {
           email: this.sharedState.state.property.mail,
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style>
-  .signup-container {
+  .contents-container {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -83,7 +83,7 @@ export default {
     width:100%;
     height:100%;
   }
-  .contents-container {
+  .signup-container {
     flex-direction: column;
     -webkit-flex-direction: column;
     align-content: space-between;

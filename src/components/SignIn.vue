@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <div class="signin-container">
+    <div class="contents-container">
       <div class="dummy_container">
       </div>
-      <div class="contents-container">
+      <div class="singin-container">
         <h2 class="signin-heading">サインイン</h2>
         <form id="userName" class="signin-form">
-          <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="UserName">
+          <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="User Name">
         </form>
         <form id="passWord" class="signin-form">
           <input name="query" class="text-field" v-model="sharedState.state.property.pw" placeholder="Password">
@@ -53,9 +53,9 @@ export default {
       this.signinErrorMessage = ''
       this.passwordResetErrorMessage = ''
       if (this.sharedState.state.property.name === '') {
-        this.signinErrorMessage = 'UserName is not input'
+        this.signinErrorMessage = 'User Name is not input'
       } else if (this.sharedState.state.property.pw === '') {
-        this.signinErrorMessage = 'PassWord is not input'
+        this.signinErrorMessage = 'Password is not input'
       } else {
         var params = {
           userName: this.sharedState.state.property.name,
@@ -86,7 +86,7 @@ export default {
       this.signinErrorMessage = ''
       this.passwordResetErrorMessage = ''
       if (this.sharedState.state.property.name === '') {
-        this.passwordResetErrorMessage = 'UserName is not input'
+        this.passwordResetErrorMessage = 'User Name is not input'
       } else {
         var params = {
           userName: this.sharedState.state.property.name
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style>
-  .signin-container {
+  .contents-container {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;
@@ -119,7 +119,7 @@ export default {
     width:100%;
     height:100%;
   }
-  .contents-container {
+  .signin-container {
     flex-direction: column;
     -webkit-flex-direction: column;
     align-content: space-between;
