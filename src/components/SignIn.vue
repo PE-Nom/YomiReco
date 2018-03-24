@@ -4,7 +4,7 @@
       <div class="dummy_container">
       </div>
       <div class="contents-container">
-        <h2 class="SignIn-heading">サインイン</h2>
+        <h2 class="signin-heading">サインイン</h2>
         <form id="userName" class="signin-form">
           <input name="query" class="text-field" v-model="sharedState.state.property.name" placeholder="UserName">
         </form>
@@ -124,7 +124,7 @@ export default {
     -webkit-flex-direction: column;
     align-content: space-between;
   }
-  .SignIn-heading {
+  .signin-heading {
     text-align: center;
   }
   .signin-form {
