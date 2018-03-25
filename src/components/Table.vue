@@ -8,7 +8,7 @@
                 </div>
             </div>
         </div>
-        <div v-for="(entry,idx) in filteredData" v-bind:key=idx>
+        <div v-for="(entry,idx) in filteredData" v-bind:key=idx @click.exact="editItem(idx, entry)" @click.ctrl="deleteItem(idx, entry)">
             <div class="table-row data">
                 <div class="wrapper attributes">
                 <div v-for="(val, idx) in columns" v-bind:key=idx :class="[val]">
@@ -90,6 +90,14 @@ export default {
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+    editItem: function (idx, entry) {
+      console.log('edtiItem: idx=' + idx)
+      console.log(entry)
+    },
+    deleteItem: function (idx, entry) {
+      console.log('deleteItem: idx=' + idx)
+      console.log(entry)
     },
     createBooksRecords: function (books) {
       var records = []
