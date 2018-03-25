@@ -16,7 +16,7 @@
         <form v-on:submit.prevent="ResendConfirmationCode" class="confirm-form">
           <input type='submit' class="button" id="resend-button" value='確認コードを再送する'>
         </form>
-        <p v-if=errorMessage id="error-message-field">{{errorMessage}}</p>
+        <p v-if=errorMessage class="message-field">{{errorMessage}}</p>
       </div>
       <div class="dummy_container">
       </div>
@@ -122,6 +122,9 @@ export default {
     /* ボーダーをなくす */
     border-style: none;
     border-radius: 3px;
+  }
+  .message_field {
+    word-wrap: break-word;
   }
   #confirm-button, #resend-button {
     background-color: rgb(29, 137, 238);

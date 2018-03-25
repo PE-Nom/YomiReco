@@ -18,12 +18,12 @@
         <form v-on:submit.prevent="SignIn" class="signin-form">
           <input type='submit' class="button" id='signin-button' value='サインイン'>
         </form>
-        <p v-if=signinErrorMessage id="signin-message-field">{{signinErrorMessage}}</p>
+        <p v-if=signinErrorMessage class="message-field">{{signinErrorMessage}}</p>
         <br/>
         <form v-on:submit.prevent="PasswordReset" class="signin-form">
           <input type='submit' class="button" id='password-button' value='パスワードを新たに発行する'>
         </form>
-        <p v-if=passwordResetErrorMessage id="password-message-field">{{passwordResetErrorMessage}}</p>
+        <p v-if=passwordResetErrorMessage class="message-field">{{passwordResetErrorMessage}}</p>
         <form v-on:submit.prevent="SignUp" class="signin-form">
           <input type='submit' class="button" id = 'account-button' value='新しいアカウントを登録する'>
         </form>
@@ -150,6 +150,10 @@ export default {
     /* ボーダーをなくす */
     border-style: none;
     border-radius: 3px;
+  }
+  .message_field {
+    flex: 1;
+    word-break: break-all;
   }
   #signin-button {
     background-color: rgb(29, 137, 238);

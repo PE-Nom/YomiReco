@@ -16,7 +16,7 @@
         <form v-on:submit.prevent="ChangePassword" class="passwordreset-form">
           <input type='submit' class="button" id="reset-button" value='変更する'>
         </form>
-        <p v-if=errorMessage id="error-message-field">{{errorMessage}}</p>
+        <p v-if=errorMessage class="message-field">{{errorMessage}}</p>
       </div>
       <div class="dummy_container">
       </div>
@@ -81,6 +81,8 @@ export default {
     flex-direction: column;
     -webkit-flex-direction: column;
     align-content: space-between;
+    flex: 1;
+    min-width: 300;
   }
   .passwordreset-heading {
     text-align: center;
@@ -110,6 +112,9 @@ export default {
     /* ボーダーをなくす */
     border-style: none;
     border-radius: 3px;
+  }
+  .message-field {
+    word-wrap: break-word;
   }
   #reset-button {
     background-color: rgb(29, 137, 238);

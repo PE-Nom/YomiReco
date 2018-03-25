@@ -18,7 +18,7 @@
         <form v-on:submit.prevent="SignUp" class="signup-form">
           <input type='submit' class="button" id='create-account-button' value='アカウントの作成'>
         </form>
-        <p v-if=errorMessage id="error-message-field">{{errorMessage}}</p>
+        <p v-if=errorMessage class="message-field">{{errorMessage}}</p>
       </div>
       <div class="dummy_container">
       </div>
