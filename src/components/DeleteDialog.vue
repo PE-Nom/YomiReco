@@ -12,20 +12,20 @@
             <div class="form-group">
               <label for="inputTitle" class="col-md-2 control-label">タイトル</label>
               <div class="col-md-10">
-                <input type="text" class="form-control" id="inputTitle" placeholder="書籍タイトル" v-model="record.BookTitle">
+                <input type="text" class="form-control" id="inputTitle" placeholder="書籍タイトル" v-model="record.BookTitle" disabled="disabled">
               </div>
             </div>
             <div class="form-group">
               <label for="inputComment" class="col-md-2 control-label">書評</label>
               <div class="col-md-10">
-                <textarea class="form-control" rows="3" id="inputComment" v-model="record.ReviewComment"></textarea>
+                <textarea class="form-control" rows="3" id="inputComment" v-model="record.ReviewComment" disabled="disabled"></textarea>
               </div>
             </div>
             <div class="complete-checkbox">
-              <label><input type="checkbox" value="" v-model="complete">読み終えた？</label><label class="check-explain">（Yes:チェックを入れる）</label>
+              <label><input type="checkbox" value="" v-model="complete" disabled="disabled">読み終えた？</label><label class="check-explain">（Yes:チェックを入れる）</label>
             </div>
             <div class="buy-checkbox">
-              <label><input type="checkbox" value="" v-model="buy">購入？</label><label class="check-explain">（Yes:チェックを入れる）</label>
+              <label><input type="checkbox" value="" v-model="buy" disabled="disabled">購入？</label><label class="check-explain">（Yes:チェックを入れる）</label>
             </div>
           </div>
           <div class="modal-footer">
