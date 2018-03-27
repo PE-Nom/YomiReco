@@ -3,8 +3,11 @@
     <div id="header-container">
       <div id="user-info">
         <p id="user-name">ユーザー：{{userName}}</p>
-        <form id="sign-out" v-on:submit.prevent="SignOut">
+        <form id="sign-out" v-on:submit.prevent="signOut">
           <input type='submit' id="logout-button" value='サインアウト'>
+        </form>
+        <form id="add-item" v-on:submit.prevent="addItem">
+          <input type='submit' id="add-item-button" value='追加'>
         </form>
       </div>
       <div id="query-box">
@@ -13,12 +16,22 @@
         </form>
       </div>
     </div>
-    <!-- <button v-on:click='logout'>ログアウト</button> -->
-    <Table v-on:updatedata="updateRecords"
+    <Table v-on:updatedata="updateRecords" @editItem="editItem" @deleteItem="deleteItem"
       :data="gridData"
       :columns="gridColumns"
       :filter-key="searchQuery">
     </Table>
+    <AddDialog v-if="showAddDialog" @cancelClose="cancelClose" @addClose="addClose">
+      <h3 slot="header">読書録の追加</h3>
+    </AddDialog>
+    <EditDialog v-if="showEditDialog" @cancelClose="cancelClose" @editClose="editClose"
+      :record="editRecord">
+      <h3 slot="header">読書録の更新</h3>
+    </EditDialog>
+    <DeleteDialog v-if="showDeleteDialog" @cancelClose="cancelClose" @deleteClose="deleteClose"
+      :record="deleteRecord">
+      <h3 slot="header">読書録の削除</h3>
+    </DeleteDialog>
   </div>
 </template>
 
@@ -27,28 +40,76 @@ import dbmodel from '../models/dbmodel.js'
 import PropertyStore from '../models/store.js'
 import Table from './Table.vue'
 import SignIn from './SignIn.vue'
+import AddDialog from './AddDialog.vue'
+import EditDialog from './EditDialog.vue'
+import DeleteDialog from './DeleteDialog.vue'
 
 export default {
   name: 'List',
   components: {
     SignIn,
-    Table
+    Table,
+    AddDialog,
+    EditDialog,
+    DeleteDialog
   },
   data: function () {
     return {
       userName: PropertyStore.state.property.name,
+      showAddDialog: false,
+      showEditDialog: false,
+      showDeleteDialog: false,
+      editRecord: null,
+      deleteRecord: null,
       searchQuery: '',
-      gridColumns: ['BookTitle', 'RegistrationDateTime', 'Buy', 'ReadComplete', 'BookImagePath'],
+      gridColumns: ['BookTitle', 'RegistrationDateTime', 'Buy', 'ReadComplete', 'ReviewComment', 'BookImagePath'],
       gridData: []
     }
   },
   methods: {
+    addItem: function () {
+      console.log('## addItem')
+      this.showAddDialog = true
+    },
+    editItem: function (rec) {
+      console.log('## editItem')
+      console.log(rec)
+      this.editRecord = Object.assign({}, rec)
+      this.showEditDialog = true
+    },
+    deleteItem: function (rec) {
+      console.log('## deleteItem')
+      console.log(rec)
+      this.deleteRecord = Object.assign({}, rec)
+      this.showDeleteDialog = true
+    },
+    addClose: function (rec) {
+      console.log('## addClose')
+      this.showAddDialog = false
+      Table.methods.addRecord(rec)
+    },
+    editClose: function (rec) {
+      console.log('## editClose')
+      this.showEditDialog = false
+      Table.methods.updateRecord(rec)
+    },
+    deleteClose: function (rec) {
+      console.log('## deleteClose')
+      this.showDeleteDialog = false
+      Table.methods.deleteRecord(rec)
+    },
+    cancelClose: function () {
+      this.showAddDialog = false
+      this.showEditDialog = false
+      this.showDeleteDialog = false
+      console.log('closeDialog')
+    },
     updateRecords: function (bookRecords) {
       console.log('###updateRecords')
       console.log(bookRecords)
       this.gridData = bookRecords
     },
-    SignOut: async function (event) {
+    signOut: async function (event) {
       console.log('logout')
       try {
         await dbmodel.SignOut()
@@ -84,10 +145,10 @@ export default {
     padding: 5px;
     margin-bottom: 0;
   }
-  #sign-out {
+  #sign-out, #add-item {
     padding: 5px;
   }
-  #logout-button {
+  #logout-button, #add-item-button {
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
@@ -112,7 +173,7 @@ export default {
     -moz-box-shadow: 2px 2px 3px 1px #248;
     -webkit-box-shadow: 2px 2px 3px 1px #248;
   }
-  #logout-button:hover {
+  #logout-button:hover, #add-item-button:hover {
     color: rgb(1, 78, 165);
   }
   /* --------------- */

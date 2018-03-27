@@ -341,7 +341,7 @@ export default {
             }
           },
           FilterExpression: 'UserName = :user',
-          ProjectionExpression: 'UserName, RegistrationDateTime,BookImagePath,BookTitle,Buy,ReadComplete',
+          ProjectionExpression: 'UserName, RegistrationDateTime,BookImagePath,BookTitle,Buy,ReadComplete,ReviewComment',
           TableName: 'YomiRecTest'
         }
         // Call DynamoDB to read the item from the table
@@ -354,7 +354,7 @@ export default {
             var records = ''
             data.Items.forEach(function (element, index, array) {
               records += element.UserName.S +
-                    ':' + element.BookTitle.S + '@' + element.RegistrationDateTime.S +
+                    ':' + element.BookTitle.S + '@' + element.RegistrationDateTime.S + ',' + element.ReviewComment.S +
                     '(' + element.BookImagePath.S + ')' + '<br>'
             })
             console.log(records)

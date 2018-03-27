@@ -91,13 +91,33 @@ export default {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
+    addRecord: function (rec) {
+      console.log('addRecord')
+      console.log(rec)
+      // @@@
+      // ここに dbmodels.addRecord(rec) を追加する
+    },
+    updateRecord: function (rec) {
+      console.log('updateRecord')
+      console.log(rec)
+      // @@@
+      // ここに dbmodels.updateRecord(rec) を追加する
+    },
+    deleteRecord: function (rec) {
+      console.log('deleteRecord')
+      console.log(rec)
+      // @@@
+      // ここに dbmodels.deleteRecord(rec) を追加する
+    },
     editItem: function (idx, entry) {
       console.log('edtiItem: idx=' + idx)
       console.log(entry)
+      this.$emit('editItem', entry)
     },
     deleteItem: function (idx, entry) {
       console.log('deleteItem: idx=' + idx)
       console.log(entry)
+      this.$emit('deleteItem', entry)
     },
     createBooksRecords: function (books) {
       var records = []
@@ -109,6 +129,7 @@ export default {
                 ',"RegistrationDateTime" : "' + element.RegistrationDateTime.S + '"' +
                 ',"Buy" : "' + buy + '"' +
                 ',"ReadComplete" : "' + comp + '"' +
+                ',"ReviewComment" : "' + element.ReviewComment.S + '"' +
                 ',"BookImagePath" : "' + element.BookImagePath.S + '"' +
                 ' }'
         var obj = JSON.parse(rec)
@@ -189,6 +210,13 @@ export default {
     height: 20px;
     display:flex;
     align-items: center;
+    text-align: left;
+  }
+  .ReviewComment {
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     text-align: left;
   }
   .BookImagePath {
