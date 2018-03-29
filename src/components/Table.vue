@@ -203,14 +203,14 @@ export default {
     -webkit-flex-direction: row;
   }
   .BookTitle {
-    width: 200px;
+    width: 300px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
   }
   .RegistrationDateTime {
-    width: 300px;
+    width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -221,17 +221,23 @@ export default {
     height: 20px;
     display:flex;
     align-items: center;
-    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
   }
   .ReadComplete {
-    width: 200px;
+    width: 150px;
     height: 20px;
     display:flex;
     align-items: center;
-    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
   }
   .ReviewComment {
-    width: 200px;
+    width: 400px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -254,6 +260,12 @@ export default {
    */
    @media screen and (max-device-width: 768px),screen and (max-width: 768px)
    {
+    .ReviewComment {
+      overflow: visible;
+      white-space: normal;
+      text-overflow: clip;
+      word-wrap: break-word;
+    }
     .attributes {
       flex-direction: column;
       -webkit-flex-direction: column;
