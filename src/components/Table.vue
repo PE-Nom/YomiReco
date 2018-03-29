@@ -8,7 +8,7 @@
                 </div>
             </div>
         </div>
-        <div v-for="(entry,idx) in filteredData" v-bind:key=idx @click.exact="editItem(idx, entry)" @click.ctrl="deleteItem(idx, entry)">
+        <div v-for="(entry,idx) in filteredData" v-bind:key=idx @click.ctrl.exact="editItem(idx, entry)" @dblclick="deleteItem(idx, entry)">
             <div class="table-row data">
                 <div class="wrapper attributes">
                 <div v-for="(val, idx) in columns" v-bind:key=idx :class="[val]">
