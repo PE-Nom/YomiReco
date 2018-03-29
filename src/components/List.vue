@@ -67,6 +67,7 @@ export default {
     }
   },
   methods: {
+    // Show Dialog
     addItem: function () {
       console.log('## addItem')
       this.showAddDialog = true
@@ -83,20 +84,24 @@ export default {
       this.deleteRecord = Object.assign({}, rec)
       this.showDeleteDialog = true
     },
-    addClose: function (rec) {
+    // Dialog Close Event Listener
+    addClose: async function (rec) {
       console.log('## addClose')
       this.showAddDialog = false
-      Table.methods.addRecord(rec)
+      var records = await Table.methods.addRecord(rec)
+      this.updateRecords(records)
     },
-    editClose: function (rec) {
+    editClose: async function (rec) {
       console.log('## editClose')
       this.showEditDialog = false
-      Table.methods.updateRecord(rec)
+      var records = await Table.methods.updateRecord(rec)
+      this.updateRecords(records)
     },
-    deleteClose: function (rec) {
+    deleteClose: async function (rec) {
       console.log('## deleteClose')
       this.showDeleteDialog = false
-      Table.methods.deleteRecord(rec)
+      var records = await Table.methods.deleteRecord(rec)
+      this.updateRecords(records)
     },
     cancelClose: function () {
       this.showAddDialog = false

@@ -20,6 +20,7 @@ var authenticationDetails = null
 var cognitoUser = null
 var session = null
 var ddb = null
+var ddbDoc = null
 var emailAddr = ''
 
 export default {
@@ -312,7 +313,7 @@ export default {
       }
       AWS.config.credentials = new AWS.CognitoIdentityCredentials(cognitoParams)
       console.log('AWS.config.credentials.get!!!')
-      // AWS.config.credentials.clearCachedId();
+      // AWS.config.credentials.clearCachedId()
       AWS.config.credentials.get(function (err) {
         if (err) {
           console.log(err)
@@ -328,12 +329,11 @@ export default {
     })
     return p
   },
+  // 以降は、DynamoDB に対するアクセス (scan,put,update,delete)
   listBooks: function () {
     const p = new Promise((resolve, reject) => {
-      console.log('listBooks')
       ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'})
       if (ddb) {
-        console.log('emailAddr : ' + emailAddr)
         var params = {
           ExpressionAttributeValues: {
             ':user': {
@@ -342,30 +342,121 @@ export default {
           },
           FilterExpression: 'UserName = :user',
           ProjectionExpression: 'UserName, RegistrationDateTime,BookImagePath,BookTitle,Buy,ReadComplete,ReviewComment',
-          TableName: 'YomiRecTest'
+          TableName: 'YomiReco'
         }
         // Call DynamoDB to read the item from the table
         ddb.scan(params, function (err, data) {
           if (err) {
-            console.log('Error', err)
+            console.log('listBook Error', err)
             reject(err)
           } else {
-            console.log('Success', data)
-            var records = ''
-            data.Items.forEach(function (element, index, array) {
-              records += element.UserName.S +
-                    ':' + element.BookTitle.S + '@' + element.RegistrationDateTime.S + ',' + element.ReviewComment.S +
-                    '(' + element.BookImagePath.S + ')' + '<br>'
-            })
-            console.log(records)
-            // for test
-            // return reject('return rejcet from listBooks for test')
             resolve(data)
           }
         })
       } else {
         var err = 'ddb is undefined'
         console.log('ddb :' + ddb)
+        reject(err)
+      }
+    })
+    return p
+  },
+  addRecord: function (rec) {
+    const p = new Promise((resolve, reject) => {
+      ddbDoc = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-10-08'})
+      if (ddbDoc) {
+        var params = {
+          TableName: 'YomiReco',
+          Item: {
+            UserName: emailAddr,
+            BookTitle: rec.BookTitle,
+            BookImagePath: rec.BookImagePath,
+            Buy: rec.Buy === 'true',
+            ReadComplete: rec.ReadComplete === 'true',
+            RegistrationDateTime: rec.RegistrationDateTime,
+            ReviewComment: rec.ReviewComment
+          }
+        }
+        // Call DynamoDB to create the item from the table
+        ddbDoc.put(params, function (err, data) {
+          if (err) {
+            console.log('Error', err)
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      } else {
+        var err = 'ddbDoc is undefined'
+        console.log('ddbDoc :' + ddbDoc)
+        reject(err)
+      }
+    })
+    return p
+  },
+  updateRecord: function (rec) {
+    const p = new Promise((resolve, reject) => {
+      console.log('updateRecoed')
+      console.log(rec)
+      ddbDoc = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-10-08'})
+      if (ddbDoc) {
+        var params = {
+          TableName: 'YomiReco',
+          Key: {
+            'UserName': emailAddr,
+            'BookTitle': rec.BookTitle
+          },
+          UpdateExpression: 'set RegistrationDateTime = :t, BookImagePath = :i, ReviewComment = :r, Buy = :b, ReadComplete = :c',
+          ExpressionAttributeValues: {
+            ':t': rec.RegistrationDateTime,
+            ':i': rec.BookImagePath,
+            ':r': rec.ReviewComment,
+            ':b': rec.Buy === 'true',
+            ':c': rec.ReadComplete === 'true'
+          }
+        }
+        // Call DynamoDB to update the item from the table
+        ddbDoc.update(params, function (err, data) {
+          if (err) {
+            console.log('Error', err)
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      } else {
+        var err = 'ddbDoc is undefined'
+        console.log('ddbDoc :' + ddbDoc)
+        reject(err)
+      }
+    })
+    return p
+  },
+  deleteRecord: function (rec) {
+    const p = new Promise((resolve, reject) => {
+      console.log('deleteRecoed')
+      console.log(rec)
+      ddbDoc = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-10-08'})
+      if (ddbDoc) {
+        var params = {
+          TableName: 'YomiReco',
+          Key: {
+            'UserName': emailAddr,
+            'BookTitle': rec.BookTitle
+          }
+        }
+        // Call DynamoDB to delete the item from the table
+        ddbDoc.delete(params, function (err, data) {
+          if (err) {
+            console.log('Error', err)
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+      } else {
+        var err = 'ddbDoc is undefined'
+        console.log('ddbDoc :' + ddbDoc)
         reject(err)
       }
     })

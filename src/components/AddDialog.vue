@@ -54,15 +54,13 @@ export default {
   methods: {
     addRecord: function () {
       var date = utilities.formatDate(new Date())
-      var buy = this.buy ? '購入' : '貸出'
-      var comp = this.complete ? '完読' : '未読'
       var rec = '{' +
                 ' "BookTitle" : "' + this.title + '"' +
                 ',"RegistrationDateTime" : "' + date.toString() + '"' +
-                ',"Buy" : "' + buy + '"' +
-                ',"ReadComplete" : "' + comp + '"' +
+                ',"Buy" : "' + this.buy + '"' +
+                ',"ReadComplete" : "' + this.complete + '"' +
                 ',"ReviewComment" : "' + this.comment + '"' +
-                ',"BookImagePath" : "no image"' +
+                ',"BookImagePath" : "No image"' +
                 ' }'
       var obj = JSON.parse(rec)
       this.$emit('addClose', obj)
@@ -71,6 +69,9 @@ export default {
       console.log('close @ addDialog')
       this.$emit('cancelClose')
     }
+  },
+  mounted () {
+    console.log('mounted')
   }
 }
 </script>

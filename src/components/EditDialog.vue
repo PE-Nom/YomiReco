@@ -12,7 +12,7 @@
             <div class="form-group">
               <label for="inputTitle" class="col-md-2 control-label">タイトル</label>
               <div class="col-md-10">
-                <input type="text" class="form-control" id="inputTitle" placeholder="書籍タイトル" v-model="record.BookTitle">
+                <input type="text" class="form-control" id="inputTitle" placeholder="書籍タイトル" v-model="record.BookTitle" disabled="disabled">
               </div>
             </div>
             <div class="form-group">
@@ -55,13 +55,11 @@ export default {
   methods: {
     editRecord: function () {
       var date = utilities.formatDate(new Date())
-      var buy = this.buy ? '購入' : '貸出'
-      var comp = this.complete ? '完読' : '未読'
       var rec = '{' +
                 ' "BookTitle" : "' + this.record.BookTitle + '"' +
                 ',"RegistrationDateTime" : "' + date.toString() + '"' +
-                ',"Buy" : "' + buy + '"' +
-                ',"ReadComplete" : "' + comp + '"' +
+                ',"Buy" : "' + this.buy + '"' +
+                ',"ReadComplete" : "' + this.complete + '"' +
                 ',"ReviewComment" : "' + this.record.ReviewComment + '"' +
                 ',"BookImagePath" : "' + this.record.BookImagePath + '"' +
                 ' }'
@@ -76,7 +74,7 @@ export default {
   mounted () {
     console.log('editDialog mounted')
     this.complete = (this.record.ReadComplete === '完読')
-    this.but = (this.record.Buy === '購入')
+    this.buy = (this.record.Buy === '購入')
   }
 }
 </script>

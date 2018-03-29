@@ -91,24 +91,6 @@ export default {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
-    addRecord: function (rec) {
-      console.log('addRecord')
-      console.log(rec)
-      // @@@
-      // ここに dbmodels.addRecord(rec) を追加する
-    },
-    updateRecord: function (rec) {
-      console.log('updateRecord')
-      console.log(rec)
-      // @@@
-      // ここに dbmodels.updateRecord(rec) を追加する
-    },
-    deleteRecord: function (rec) {
-      console.log('deleteRecord')
-      console.log(rec)
-      // @@@
-      // ここに dbmodels.deleteRecord(rec) を追加する
-    },
     editItem: function (idx, entry) {
       console.log('edtiItem: idx=' + idx)
       console.log(entry)
@@ -119,11 +101,47 @@ export default {
       console.log(entry)
       this.$emit('deleteItem', entry)
     },
+    addRecord: async function (rec) {
+      console.log('addRecord')
+      try {
+        await dbmodel.addRecord(rec)
+        var books = await dbmodel.listBooks()
+        var records = await this.createBooksRecords(books)
+        return records
+      } catch (err) {
+        console.log('addRecord catch error !!')
+        console.log(err)
+      }
+    },
+    updateRecord: async function (rec) {
+      console.log('updateRecord')
+      try {
+        await dbmodel.updateRecord(rec)
+        var books = await dbmodel.listBooks()
+        var records = await this.createBooksRecords(books)
+        return records
+      } catch (err) {
+        console.log('updateRecord catch error !!')
+        console.log(err)
+      }
+    },
+    deleteRecord: async function (rec) {
+      console.log('deleteRecord')
+      try {
+        await dbmodel.deleteRecord(rec)
+        var books = await dbmodel.listBooks()
+        var records = await this.createBooksRecords(books)
+        return records
+      } catch (err) {
+        console.log('deleteRecord catch error !!')
+        console.log(err)
+      }
+    },
     createBooksRecords: function (books) {
       var records = []
       books.Items.forEach(function (element, index, array) {
-        var buy = element.Buy.B ? '購入' : '貸出'
-        var comp = element.ReadComplete.B ? '完読' : '未読'
+        var buy = element.Buy.BOOL ? '購入' : '貸出'
+        var comp = element.ReadComplete.BOOL ? '完読' : '未読'
         var rec = '{' +
                 ' "BookTitle" : "' + element.BookTitle.S + '"' +
                 ',"RegistrationDateTime" : "' + element.RegistrationDateTime.S + '"' +
