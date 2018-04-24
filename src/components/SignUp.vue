@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import dbmodel from '../models/dbmodel.js'
+import accountctl from '../models/accountctl.js'
 import PropertyStore from '../models/store.js'
 
 export default {
@@ -53,7 +53,7 @@ export default {
           userName: this.sharedState.state.property.name,
           passWord: this.sharedState.state.property.pw
         }
-        dbmodel.SignUp(params)
+        accountctl.SignUp(params)
           .then(() => {
             this.$router.push('/Confirm')
           })

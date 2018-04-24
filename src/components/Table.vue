@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import accountctl from '../models/accountctl.js'
 import dbmodel from '../models/dbmodel.js'
 
 export default {
@@ -158,9 +159,9 @@ export default {
     checkSession: async function (onSuccessCb, onFailureCb) {
       console.log('checkSession')
       try {
-        await dbmodel.getSession()
-        await dbmodel.getUserAttribute()
-        await dbmodel.getCredentials()
+        await accountctl.getSession()
+        await accountctl.getUserAttribute()
+        await accountctl.getCredentials()
         await onSuccessCb()
       } catch (err) {
         // loginにリダイレクトする

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import dbmodel from '../models/dbmodel'
+import accountctl from '../models/accountctl.js'
 import PropertyStore from '../models/store.js'
 
 export default {
@@ -47,7 +47,7 @@ export default {
           userName: this.sharedState.state.property.name,
           pin: this.pin
         }
-        dbmodel.Confirm(params)
+        accountctl.Confirm(params)
           .then(() => {
             this.$router.push('/SignIn')
           })
@@ -62,7 +62,7 @@ export default {
       var params = {
         userName: this.sharedState.state.property.name
       }
-      dbmodel.Resend(params)
+      accountctl.Resend(params)
         .then(() => {
           console.log('Resolve')
           // nop

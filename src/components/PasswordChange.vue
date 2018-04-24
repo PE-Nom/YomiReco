@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import dbmodel from '../models/dbmodel.js'
+import accountctl from '../models/accountctl.js'
 import PropertyStore from '../models/store.js'
 
 export default {
@@ -50,7 +50,7 @@ export default {
           pw: this.pw,
           pin: this.pin
         }
-        dbmodel.ChangePassword(params)
+        accountctl.ChangePassword(params)
           .then(() => {
             this.$router.push('/SignIn')
           })

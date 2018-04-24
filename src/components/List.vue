@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import dbmodel from '../models/dbmodel.js'
+import accountctl from '../models/accountctl.js'
 import PropertyStore from '../models/store.js'
 import Table from './Table.vue'
 import SignIn from './SignIn.vue'
@@ -117,7 +117,7 @@ export default {
     signOut: async function (event) {
       console.log('logout')
       try {
-        await dbmodel.SignOut()
+        await accountctl.SignOut()
         await this.$router.push('/SignIn')
       } catch (err) {
         console.log(err)

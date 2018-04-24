@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import dbmodel from '../models/dbmodel.js'
+import accountctl from '../models/accountctl.js'
 import PropertyStore from '../models/store.js'
 
 export default {
@@ -62,7 +62,7 @@ export default {
           passWord: this.sharedState.state.property.pw
         }
         console.log(params)
-        dbmodel.SignIn(params)
+        accountctl.SignIn(params)
           .then(() => {
             this.$router.push('/List')
           })
@@ -90,7 +90,7 @@ export default {
           userName: this.sharedState.state.property.name
         }
         console.log(params)
-        dbmodel.PasswordReset(params)
+        accountctl.PasswordReset(params)
           .then((cognitoUserPackage) => {
             PropertyStore.state.cognitoUserPackage = cognitoUserPackage
             this.$router.push('/PasswordChange')
