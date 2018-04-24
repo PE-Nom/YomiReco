@@ -37,6 +37,7 @@
 <script>
 import accountctl from '../models/accountctl.js'
 import dbmodel from '../models/dbmodel.js'
+import s3model from '../models/s3model.js'
 
 export default {
   name: 'Table',
@@ -105,10 +106,10 @@ export default {
     addRecord: async function (rec) {
       console.log('addRecord')
       try {
-        await dbmodel.addRecord(rec)
-        var books = await dbmodel.listBooks()
-        var records = await this.createBooksRecords(books)
-        return records
+        if (rec.img) {
+          await s3model.putObject(rec.img)
+        }
+        await dbmodel.addRecord(rec.rec)
       } catch (err) {
         console.log('addRecord catch error !!')
         console.log(err)
@@ -118,9 +119,6 @@ export default {
       console.log('updateRecord')
       try {
         await dbmodel.updateRecord(rec)
-        var books = await dbmodel.listBooks()
-        var records = await this.createBooksRecords(books)
-        return records
       } catch (err) {
         console.log('updateRecord catch error !!')
         console.log(err)
@@ -130,11 +128,19 @@ export default {
       console.log('deleteRecord')
       try {
         await dbmodel.deleteRecord(rec)
+      } catch (err) {
+        console.log('deleteRecord catch error !!')
+        console.log(err)
+      }
+    },
+    updateList: async function () {
+      try {
+        await s3model.listObjects()
         var books = await dbmodel.listBooks()
         var records = await this.createBooksRecords(books)
         return records
       } catch (err) {
-        console.log('deleteRecord catch error !!')
+        console.log('updateList catch error !!')
         console.log(err)
       }
     },
@@ -172,6 +178,7 @@ export default {
     loadData: async function () {
       console.log('loadData')
       try {
+        await s3model.listObjects()
         var books = await dbmodel.listBooks()
         var records = await this.createBooksRecords(books)
         this.$emit('updatedata', records)

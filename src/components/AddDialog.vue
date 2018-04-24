@@ -51,6 +51,7 @@
 
 <script>
 import utilities from '../utilities/utilities.js'
+import account from '../models/accountctl.js'
 
 export default {
   name: 'AddDialog',
@@ -66,15 +67,20 @@ export default {
   methods: {
     addRecord: function () {
       var date = utilities.formatDate(new Date())
+      var imgPath = 'No image'
+      if (this.coverImageFile) {
+        imgPath = account.getEmailAddr() + '/' + this.coverImageFile.name
+      }
       var rec = '{' +
                 ' "BookTitle" : "' + this.title + '"' +
                 ',"RegistrationDateTime" : "' + date.toString() + '"' +
                 ',"Buy" : "' + this.buy + '"' +
                 ',"ReadComplete" : "' + this.complete + '"' +
                 ',"ReviewComment" : "' + this.comment + '"' +
-                ',"BookImagePath" : "No image"' +
+                ',"BookImagePath" : "' + imgPath + '"' +
                 ' }'
-      var obj = JSON.parse(rec)
+      var dbRecord = JSON.parse(rec)
+      var obj = { rec: dbRecord, img: this.coverImageFile }
       this.$emit('addClose', obj)
     },
     cancel: function () {

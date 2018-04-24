@@ -85,22 +85,25 @@ export default {
       this.showDeleteDialog = true
     },
     // Dialog Close Event Listener
-    addClose: async function (rec) {
+    addClose: async function (obj) {
       console.log('## addClose')
       this.showAddDialog = false
-      var records = await Table.methods.addRecord(rec)
+      await Table.methods.addRecord(obj)
+      var records = await Table.methods.updateList()
       this.updateRecords(records)
     },
     editClose: async function (rec) {
       console.log('## editClose')
       this.showEditDialog = false
-      var records = await Table.methods.updateRecord(rec)
+      await Table.methods.updateRecord(rec)
+      var records = await Table.methods.updateList()
       this.updateRecords(records)
     },
     deleteClose: async function (rec) {
       console.log('## deleteClose')
       this.showDeleteDialog = false
-      var records = await Table.methods.deleteRecord(rec)
+      await Table.methods.deleteRecord(rec)
+      var records = await Table.methods.updateList()
       this.updateRecords(records)
     },
     cancelClose: function () {
