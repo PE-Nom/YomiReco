@@ -10,6 +10,17 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
+              <label v-if='coverImageFile==null' id='CoverImage' for='file_photo'>
+                ＋表紙イメージ
+                <input type='file' id='file_photo' style='display:none;' @change='onFileSelected'>
+              </label>
+              <label v-else for='file_photo'>
+                <img v-if="coverImageFile.previewImageSrc" :src="coverImageFile.previewImageSrc" :alt="`${coverImageFile.name}のプレビュー画像`" class="form-files-imagePreview" />
+                <label v-else>{{coverImageFile.name}}</label>
+                <input type='file' id='file_photo' style='display:none;' @change='onFileSelected'>
+              </label>
+            </div>
+            <div class="form-group">
               <label for="inputTitle" class="col-md-2 control-label">タイトル</label>
               <div class="col-md-10">
                 <input type="text" class="form-control" id="inputTitle" placeholder="書籍タイトル" v-model="title">
@@ -48,7 +59,8 @@ export default {
       title: '',
       comment: 'xxxxxx',
       complete: false,
-      buy: false
+      buy: false,
+      coverImageFile: null
     }
   },
   methods: {
@@ -68,6 +80,19 @@ export default {
     cancel: function () {
       console.log('close @ addDialog')
       this.$emit('cancelClose')
+    },
+    onFileSelected: function (event) {
+      console.log(event)
+      if (event.target.files.length) {
+        this.coverImageFile = event.target.files[0]
+        if (this.coverImageFile.type.startsWith('image/')) {
+          this.coverImageFile.previewImageSrc = window.URL.createObjectURL(this.coverImageFile)
+        }
+        console.log(this.coverImageFile)
+      } else {
+        console.log('no file selected')
+        console.log(this.coverImageFile)
+      }
     }
   },
   mounted () {
@@ -77,6 +102,17 @@ export default {
 </script>
 
 <style>
+#CoverImage {
+  color: white;
+  background-color:rgb(19, 134, 241);;
+  padding: 6px;
+  border-radius: 12px;
+}
+.form-files-imagePreview {
+  max-height: 100px;
+  max-width: 100px;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
