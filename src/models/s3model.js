@@ -13,16 +13,9 @@ export default {
       var s3 = new AWS.S3({params: {Bucket: bucketName, Prefix: imgpath}})
       s3.listObjects({}, function (err, data) {
         if (err) {
-          console.log(err) // an error occurred
           return reject(err)
         } else {
-          console.log(data) // request succeeded
           s3objects = data
-          var objKeys = ''
-          s3objects.Contents.forEach(function (obj) {
-            objKeys += obj.Key + '<br>'
-          })
-          console.log(objKeys)
           return resolve()
         }
       })
@@ -32,26 +25,40 @@ export default {
   putObject: function (obj) {
     const p = new Promise((resolve, reject) => {
       console.log('putObject')
-      var emailAddr = account.getEmailAddr()
       var s3 = new AWS.S3({params: {Bucket: bucketName}})
-      var filename = emailAddr + '/' + obj.name
-      console.log(filename)
-      console.log(s3objects)
-      s3objects.Contents.forEach(function (obj) {
-        console.log(obj.Key)
-        if (obj.Key === filename) {
+      s3objects.Contents.forEach(function (element) {
+        if (element.Key === obj.rec.BookImagePath) {
           var err = '同じ名前のイメージデータが存在しています'
           return reject(err)
         }
       })
-      var params = {Key: filename, ContentType: obj.type, Body: obj}
+      var params = {Key: obj.rec.BookImagePath, ContentType: obj.img.type, ACL: 'public-read', Body: obj.img}
       s3.putObject(params, function (err, data) {
         if (err) {
           return reject(err)
         } else {
-          console.log(data)
           return resolve()
         }
+      })
+    })
+    return p
+  },
+  getObject: function (records) {
+    const p = new Promise((resolve, reject) => {
+      console.log('getObject')
+      var s3 = new AWS.S3({params: {Bucket: bucketName}})
+      records.forEach(function (element, index, array) {
+        var filename = element.BookImagePath
+        var params = {Key: filename}
+        s3.getObject(params, function (err, data) {
+          if (err) {
+            console.log(err)
+            return reject(err)
+          } else {
+            console.log(data)
+            return resolve('success')
+          }
+        })
       })
     })
     return p
@@ -66,11 +73,13 @@ export default {
         if (err) {
           return reject(err)
         } else {
-          console.log(data)
           return resolve()
         }
       })
     })
     return p
+  },
+  getBucketName: function () {
+    return bucketName
   }
 }

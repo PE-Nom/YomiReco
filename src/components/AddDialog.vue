@@ -69,7 +69,10 @@ export default {
       var date = utilities.formatDate(new Date())
       var imgPath = 'No image'
       if (this.coverImageFile) {
-        imgPath = account.getEmailAddr() + '/' + this.coverImageFile.name
+        imgPath = account.getEmailAddr() +
+                  '/' +
+                  // this.coverImageFile.name
+                  this.title
       }
       var rec = '{' +
                 ' "BookTitle" : "' + this.title + '"' +

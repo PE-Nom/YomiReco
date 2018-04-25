@@ -24,6 +24,7 @@
                         <b-badge variant='danger' v-else-if="val==='ReadComplete' && entry[val]==='未読'">
                           {{entry[val]}}
                         </b-badge>
+                        <img v-bind:src='extImagePath(entry)' v-else-if="val==='BookImagePath' && entry[val]!=='No image'"/>
                         <span v-else>
                           {{entry[val]}}
                         </span>
@@ -89,6 +90,16 @@ export default {
     }
   },
   methods: {
+    extImagePath: function (entry) {
+      var imgPath = 'No image'
+      if (entry !== 'No image') {
+        imgPath = 'https://s3-ap-northeast-1.amazonaws.com/' +
+                  s3model.getBucketName() +
+                  '/' +
+                  entry.BookImagePath
+      }
+      return imgPath
+    },
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
@@ -107,7 +118,7 @@ export default {
       console.log('addRecord')
       try {
         if (rec.img) {
-          await s3model.putObject(rec.img)
+          await s3model.putObject(rec)
         }
         await dbmodel.addRecord(rec.rec)
       } catch (err) {
@@ -171,6 +182,7 @@ export default {
         await s3model.listObjects()
         var books = await dbmodel.listBooks()
         var records = await this.createBooksRecords(books)
+        // await s3model.getObject(records)
         return records
       } catch (err) {
         console.log('updateList catch error !!')
