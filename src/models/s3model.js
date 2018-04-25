@@ -55,5 +55,22 @@ export default {
       })
     })
     return p
+  },
+  deleteObject: function (filename) {
+    const p = new Promise((resolve, reject) => {
+      console.log('deleteObject')
+      console.log(filename)
+      var s3 = new AWS.S3({params: {Bucket: bucketName}})
+      var params = {Key: filename}
+      s3.deleteObject(params, function (err, data) {
+        if (err) {
+          return reject(err)
+        } else {
+          console.log(data)
+          return resolve()
+        }
+      })
+    })
+    return p
   }
 }

@@ -128,19 +128,9 @@ export default {
       console.log('deleteRecord')
       try {
         await dbmodel.deleteRecord(rec)
+        await s3model.deleteObject(rec.BookImagePath)
       } catch (err) {
         console.log('deleteRecord catch error !!')
-        console.log(err)
-      }
-    },
-    updateList: async function () {
-      try {
-        await s3model.listObjects()
-        var books = await dbmodel.listBooks()
-        var records = await this.createBooksRecords(books)
-        return records
-      } catch (err) {
-        console.log('updateList catch error !!')
         console.log(err)
       }
     },
@@ -175,12 +165,22 @@ export default {
         console.log(err)
       }
     },
-    loadData: async function () {
-      console.log('loadData')
+    updateList: async function () {
+      console.log('updateList')
       try {
         await s3model.listObjects()
         var books = await dbmodel.listBooks()
         var records = await this.createBooksRecords(books)
+        return records
+      } catch (err) {
+        console.log('updateList catch error !!')
+        console.log(err)
+      }
+    },
+    loadData: async function () {
+      console.log('loadData')
+      try {
+        var records = await this.updateList()
         this.$emit('updatedata', records)
       } catch (err) {
         console.log('loadData catch error !!')
